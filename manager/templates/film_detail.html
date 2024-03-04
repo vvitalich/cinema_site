@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'film-update' pk=film.pk %}">Update Film</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'film-delete' pk=film.pk %}">Delete Film</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<body>
+ <h1>{{ film.title }}</h1>
+    <p>Year: {{ film.release_year }}</p>
+    <p>Team:</p>
+    <ul>
+        {% for team_member in film.teammember_set.all %}
+            <li>
+                {{ team_member.person.name }}
+
+                    {% for role in team_member.roles.all %}
+                        <p>{{ role.name }}</p>
+                    {% endfor %}
+
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+{% endblock %}

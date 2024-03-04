@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Film and Team</title>
+</head>
+<body>
+    <h1>Create Film and Team</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title"><br><br>
+
+        <label for="release_year">Release Year:</label>
+        <input type="number" id="release_year" name="release_year"><br><br>
+
+        <h2>Team Members:</h2>
+        <div id="team-members">
+            <div>
+                <label for="person">Person:</label>
+                <input type="text" id="person" name="person"><br>
+
+                <label for="role">Role:</label>
+                <input type="text" id="role" name="role"><br>
+            </div>
+        </div>
+        <button type="button" onclick="addTeamMember()">Add Team Member</button><br><br>
+
+        <button type="submit">Create Film</button>
+    </form>
+</body>
+</html>

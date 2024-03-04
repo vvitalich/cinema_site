@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <script>
+        function addNewTeamMember() {
+            var teamMemberDiv = document.getElementById('team-members');
+            var newTeamMemberDiv = document.createElement('div');
+            newTeamMemberDiv.innerHTML = `
+                <label for="id_new_person">New Team Member:</label>
+                <input type="text" id="id_new_person" name="new_person">
+                <label for="id_new_roles">Roles:</label>
+                <select id="id_new_roles" name="new_roles" multiple>
+                    {% for role in roles %}
+                        <option value="{{ role.id }}">{{ role.name }}</option>
+                    {% endfor %}
+                </select>
+            `;
+            teamMemberDiv.appendChild(newTeamMemberDiv);
+        }
+
+        function submitForm() {
+            var form = document.getElementById('update-film-team-form');
+            form.submit();
+        }
+    </script>
+    <h1>Update Film Team</h1>
+    <form method="post" id="update-film-team-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <h2>Current Team Members:</h2>
+        <ul>
+            {% for team_member in film.teammember_set.all %}
+                <li>{{ team_member.person.name }} - {{ team_member.roles.all|join:', ' }}</li>
+            {% endfor %}
+        </ul>
+
+        {{ team_member_formset.management_form }}
+        {% for form in team_member_formset %}
+            {{ form.as_p }}
+        {% endfor %}
+
+        <div id="team-members"></div>
+        <button type="button" onclick="submitForm()">Update Film Team</button>
+    </form>
+</body>
+{% endblock %}

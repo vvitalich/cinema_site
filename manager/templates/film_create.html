@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <h1>Create Film</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_title">Title:</label><br>
+        <input type="text" id="id_title" name="title"><br>
+
+        <label for="id_release_year">Release Year:</label><br>
+        <input type="number" id="id_release_year" name="release_year"><br>
+
+        <div id="participants">
+            <label for="id_participant_name">Participant Name:</label><br>
+            <input type="text" id="id_participant_name" name="participant_name[]"><br>
+
+            <label for="id_participant_role">Participant Role:</label><br>
+            <select id="id_participant_role" name="participant_role[]">
+                {% for role in roles %}
+                    <option value="{{ role.id }}">{{ role.name }}</option>
+                {% endfor %}
+            </select><br><br>
+        </div>
+
+        <button type="button" onclick="addParticipant()">Add Participant</button><br><br>
+
+        <!-- New fields for team members -->
+        <div id="team-members"></div>
+
+        <button type="submit">Create Film</button>
+    </form>
+
+    <script>
+        function addParticipant() {
+            var div = document.createElement('div');
+            div.innerHTML = '<label for="id_participant_name">Participant Name:</label><br>' +
+                            '<input type="text" name="participant_name[]"><br>' +
+                            '<label for="id_participant_role">Participant Role:</label><br>' +
+                            '<select name="participant_role[]">' +
+                                '{% for role in roles %}' +
+                                    '<option value="{{ role.id }}">{{ role.name }}</option>' +
+                                '{% endfor %}' +
+                            '</select><br><br>';
+            document.getElementById('participants').appendChild(div);
+        }
+    </script>
+</body>
+{% endblock %}
